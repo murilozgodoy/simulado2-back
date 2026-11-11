@@ -1,0 +1,29 @@
+name: Java CI with Maven
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      # Compila e roda os testes que existirem.
+      # Gate de cobertura (JaCoCo) desligado no simulado: ver o roteiro da prova.
+      - name: Build with Maven
+        run: mvn clean install
